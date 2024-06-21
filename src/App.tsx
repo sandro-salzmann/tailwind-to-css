@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ChangeEventHandler, useState } from "react";
+import { convertTailwindToCss } from "./convert-tailwind-to-css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const [css, setCss] = useState("");
+
+  const onTailwindInputChange: ChangeEventHandler<HTMLTextAreaElement> = async (e) => {
+    const css = await convertTailwindToCss({
+      tailwindClasses: e.target.value,
+    });
+    setCss(css);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <div className="h-screen grid grid-cols-1 lg:grid-cols-2 p-8 gap-4">
+      <textarea
+        className="border p-4 rounded-lg"
+        defaultValue="bg-red-100 sm:bg-orange-500 lg:bg-red-900"
+        onChange={onTailwindInputChange}
+        placeholder="Enter Tailwind classes here..."
+      />
+      <textarea
+        className="border p-4 rounded-lg"
+        value={css}
+        readOnly
+        placeholder="CSS output will appear here..."
+      />
+    </div>
+  );
+};
