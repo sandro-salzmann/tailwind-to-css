@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Main CICD
 on:
   push:
     branches: [main]
@@ -15,10 +15,20 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm install -g yarn && yarn
+      - name: Check formatting
+        run: yarn format:check
+      - name: Run linter
+        run: yarn lint
+      - name: Run type checker
+        run: yarn typecheck
+      - name: Build app
+        run: yarn build
+      - name: Run unit tests
+        run: yarn test:unit
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
-      - name: Run Playwright tests
-        run: yarn playwright test
+      - name: Run integration tests
+        run: yarn test:integration
       - uses: actions/upload-artifact@v4
         if: always()
         with:
