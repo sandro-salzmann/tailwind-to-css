@@ -1,9 +1,9 @@
 import { CustomCSSRule } from "./convert-tailwind-to-css";
 
-type MediaQueryTree = {
+interface MediaQueryTree {
   rules: string[];
   children: Record<string, MediaQueryTree>;
-};
+}
 
 export function stringifyCssRules(rules: CustomCSSRule[]): string {
   const cssRulesTree: MediaQueryTree = { rules: [], children: {} };

@@ -2,9 +2,9 @@ import { filterCssRulesByClasses } from "./filter-css-rules-by-classes";
 import { stringifyCssRules } from "./stringify-css-rules";
 import { waitForAnimationFrame } from "./utils/wait-for-animation-frame";
 
-type CustomCSSBaseRule = {
+interface CustomCSSBaseRule {
   cssText: string;
-};
+}
 
 export interface CustomCSSStyleRule extends CustomCSSBaseRule {
   type: "style";
@@ -32,26 +32,29 @@ export const convertTailwindToCss = async ({ tailwindClasses }: { tailwindClasse
     ? stylesheets[0]
     : stylesheets[stylesheets.length - 1];
   const convertCSSRuleListToCustomCSSRules = (cssRules: CSSRuleList): CustomCSSRule[] => {
-    return Array.from(cssRules)
-      .map((rule) => {
-        if (rule.constructor.name === "CSSStyleRule") {
-          const typedRule = rule as CSSStyleRule;
-          return {
-            type: "style" as const,
-            selectorText: typedRule.selectorText,
-            cssText: typedRule.cssText,
-          } satisfies CustomCSSStyleRule;
-        } else if (rule.constructor.name === "CSSMediaRule") {
-          const typedRule = rule as CSSMediaRule;
-          return {
-            type: "other" as const,
-            cssRules: convertCSSRuleListToCustomCSSRules(typedRule.cssRules),
-            cssText: typedRule.cssText,
-          } satisfies CustomCSSOtherRule;
-        }
-      })
-      .filter((x) => !!x)
-      .map((x) => x!);
+    return (
+      Array.from(cssRules)
+        .map((rule) => {
+          if (rule.constructor.name === "CSSStyleRule") {
+            const typedRule = rule as CSSStyleRule;
+            return {
+              type: "style" as const,
+              selectorText: typedRule.selectorText,
+              cssText: typedRule.cssText,
+            } satisfies CustomCSSStyleRule;
+          } else if (rule.constructor.name === "CSSMediaRule") {
+            const typedRule = rule as CSSMediaRule;
+            return {
+              type: "other" as const,
+              cssRules: convertCSSRuleListToCustomCSSRules(typedRule.cssRules),
+              cssText: typedRule.cssText,
+            } satisfies CustomCSSOtherRule;
+          }
+        })
+        .filter((x) => !!x)
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        .map((x) => x!)
+    );
   };
   const customCssRules = convertCSSRuleListToCustomCSSRules(tailwindStylesheet.cssRules);
 
