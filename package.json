@@ -17,11 +17,13 @@
     "pre-commit": "yarn format:check && yarn typecheck && yarn lint && yarn build && yarn test"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.45.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.44.1",
+    "@tanstack/eslint-plugin-query": "^5.43.1",
     "@types/node": "^20.14.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
