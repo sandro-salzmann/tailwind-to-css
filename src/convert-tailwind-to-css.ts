@@ -1,4 +1,5 @@
 import { filterCssRulesByClasses } from "./filter-css-rules-by-classes";
+import { findTailwindCSSStyleSheet } from "./find-tailwindcss-style-sheet";
 import { stringifyCssRules } from "./stringify-css-rules";
 import { waitForAnimationFrame } from "./utils/wait-for-animation-frame";
 
@@ -27,10 +28,10 @@ export const convertTailwindToCss = async ({ tailwindClasses }: { tailwindClasse
   await waitForAnimationFrame();
 
   // Find the new CSS rules from the Tailwind stylesheet and convert them to custom CSS rules
-  const stylesheets = Array.from(document.styleSheets);
-  const tailwindStylesheet = import.meta.env.DEV
-    ? stylesheets[0]
-    : stylesheets[stylesheets.length - 1];
+  const tailwindStylesheet = findTailwindCSSStyleSheet();
+  if (!tailwindStylesheet) {
+    throw new Error("Could not find Tailwind stylesheet");
+  }
   const convertCSSRuleListToCustomCSSRules = (cssRules: CSSRuleList): CustomCSSRule[] => {
     return (
       Array.from(cssRules)
