@@ -1,8 +1,5 @@
 import { expect, test } from "@playwright/test";
-import {
-  placeholderFormattedCssCode,
-  placeholderTailwindCode,
-} from "../src/placeholder-conversion";
+import { placeholderFormattedCssCode, placeholderTailwindCode } from "../src/placeholders";
 
 test.describe("Tailwind to CSS Conversion Tests", () => {
   test.beforeEach(async ({ page }) => {

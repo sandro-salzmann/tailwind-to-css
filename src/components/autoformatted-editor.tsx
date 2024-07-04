@@ -1,7 +1,7 @@
 import { Editor, EditorProps, OnChange, OnMount } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import { useState, MutableRefObject, useRef, useEffect } from "react";
-import { placeholderFormattedCssCode } from "../placeholder-conversion";
+import { placeholderFormattedCssCode } from "../placeholders";
 
 export const AutoformattedEditor = ({ value, options, ...props }: EditorProps) => {
   const [formattedValue, setFormattedValue] = useState(placeholderFormattedCssCode);
@@ -12,6 +12,10 @@ export const AutoformattedEditor = ({ value, options, ...props }: EditorProps) =
   };
 
   useEffect(() => {
+    if (value === "") {
+      return setFormattedValue("");
+    }
+
     void shadowEditorRef?.current?.getAction("editor.action.formatDocument")?.run();
   }, [value, setFormattedValue]);
 
