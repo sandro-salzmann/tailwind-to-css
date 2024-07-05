@@ -17,6 +17,9 @@
     "pre-commit": "yarn format:check && yarn typecheck && yarn lint && yarn build && yarn test"
   },
   "dependencies": {
+    "@fontsource-variable/material-symbols-rounded": "^5.0.34",
+    "@fontsource-variable/onest": "^5.0.4",
+    "@headlessui/react": "^2.1.2",
     "@monaco-editor/react": "^4.6.0",
     "@tanstack/react-query": "^5.45.1",
     "json5": "^2.2.3",

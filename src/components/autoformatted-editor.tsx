@@ -1,7 +1,8 @@
 import { Editor, EditorProps, OnChange, OnMount } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import { useState, MutableRefObject, useRef, useEffect } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { placeholderFormattedCssCode } from "../placeholders";
+import { LoadingSpinner } from "./loading-spinner";
 
 export const AutoformattedEditor = ({ value, options, ...props }: EditorProps) => {
   const [formattedValue, setFormattedValue] = useState(placeholderFormattedCssCode);
@@ -32,6 +33,7 @@ export const AutoformattedEditor = ({ value, options, ...props }: EditorProps) =
         {...props}
         value={formattedValue}
         options={{ ...options, domReadOnly: true, readOnly: true }}
+        loading={<LoadingSpinner />}
       />
       <div className="hidden">
         <Editor
