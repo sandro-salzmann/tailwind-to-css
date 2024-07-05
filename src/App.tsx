@@ -67,59 +67,61 @@ export const App = () => {
 
   return (
     <div
-      className="p-4 md:p-8 flex flex-col gap-8 w-dvw h-dvh bg-center bg-cover"
+      className="p-4 md:p-8 w-dvw h-dvh bg-center bg-cover"
       style={{ backgroundImage: `url("${backgroundUrl}")` }}
     >
-      <Header />
-      <div className="grow h-full grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="h-full flex flex-col gap-4">
-          <div className="h-48 flex flex-col gap-2">
-            <EditorHeader>Tailwind Code</EditorHeader>
-            <div
-              className="grow border border-white/10 py-4 px-[6px] rounded-lg"
-              data-testid="tailwind-editor"
-            >
-              <Editor
-                value={tailwindCode}
-                onChange={handleTailwindCodeChange}
-                options={editorOptions}
-                loading={<LoadingSpinner />}
-              />
+      <div className="max-w-7xl flex flex-col gap-8 h-full mx-auto">
+        <Header />
+        <div className="grow h-full grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="h-full flex flex-col gap-4">
+            <div className="h-48 flex flex-col gap-2">
+              <EditorHeader>Tailwind Code</EditorHeader>
+              <div
+                className="grow border border-white/10 py-4 px-[6px] rounded-lg"
+                data-testid="tailwind-editor"
+              >
+                <Editor
+                  value={tailwindCode}
+                  onChange={handleTailwindCodeChange}
+                  options={editorOptions}
+                  loading={<LoadingSpinner />}
+                />
+              </div>
             </div>
-          </div>
-          <div className="grow flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <EditorHeader>tailwind.config</EditorHeader>
-              {hasTailwindConfigError && (
-                <span className="px-4 py-2 font-semibold rounded-lg text-red-900 bg-red-100 animate-pulse">
-                  Config error
-                </span>
-              )}
-            </div>
-            <div
-              className={`h-full border border-white/10 py-4 px-[6px] rounded-lg 
+            <div className="grow flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <EditorHeader>tailwind.config</EditorHeader>
+                {hasTailwindConfigError && (
+                  <span className="px-4 py-2 font-semibold rounded-lg text-red-900 bg-red-100 animate-pulse">
+                    Config error
+                  </span>
+                )}
+              </div>
+              <div
+                className={`h-full border border-white/10 py-4 px-[6px] rounded-lg 
                           ${hasTailwindConfigError && "border-red-900"}`}
+              >
+                <Editor
+                  onChange={handleThemeChange}
+                  options={editorOptions}
+                  defaultValue={placeholderTailwindConfig}
+                  loading={<LoadingSpinner />}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="h-full flex flex-col gap-2">
+            <EditorHeader>Generated CSS</EditorHeader>
+            <div
+              className="h-full grow border border-white/10 py-4 px-[6px] rounded-lg"
+              data-testid="css-editor"
             >
-              <Editor
-                onChange={handleThemeChange}
-                options={editorOptions}
-                defaultValue={placeholderTailwindConfig}
-                loading={<LoadingSpinner />}
-              />
+              <AutoformattedEditor language="css" value={css} options={editorOptions} />
             </div>
           </div>
         </div>
-        <div className="h-full flex flex-col gap-2">
-          <EditorHeader>Generated CSS</EditorHeader>
-          <div
-            className="h-full grow border border-white/10 py-4 px-[6px] rounded-lg"
-            data-testid="css-editor"
-          >
-            <AutoformattedEditor language="css" value={css} options={editorOptions} />
-          </div>
-        </div>
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 };
