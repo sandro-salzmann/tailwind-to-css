@@ -65,5 +65,7 @@ export const convertTailwindToCss = async ({ tailwindClasses }: { tailwindClasse
     Array.from(tempElement.classList),
   );
 
+  tempElement.remove();
+
   return stringifyCssRules(matchingCssRules);
 };
