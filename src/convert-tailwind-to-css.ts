@@ -40,15 +40,15 @@ export const convertTailwindToCss = async ({ tailwindClasses }: { tailwindClasse
             const typedRule = rule as CSSStyleRule;
             return {
               type: "style" as const,
-              selectorText: typedRule.selectorText,
-              cssText: typedRule.cssText,
+              selectorText: typedRule.selectorText.replaceAll("\\", ""),
+              cssText: typedRule.cssText.replaceAll("\\", ""),
             } satisfies CustomCSSStyleRule;
           } else if (rule.constructor.name === "CSSMediaRule") {
             const typedRule = rule as CSSMediaRule;
             return {
               type: "other" as const,
               cssRules: convertCSSRuleListToCustomCSSRules(typedRule.cssRules),
-              cssText: typedRule.cssText,
+              cssText: typedRule.cssText.replaceAll("\\", ""),
             } satisfies CustomCSSOtherRule;
           }
         })
