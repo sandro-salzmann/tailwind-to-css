@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import JSON5 from "json5";
 import { editor } from "monaco-editor";
 import { useState } from "react";
+import { useDebounceCallback } from "usehooks-ts";
 import backgroundUrl from "./background.svg";
 import { AutoformattedEditor } from "./components/autoformatted-editor";
 import { EditorHeader } from "./components/editor-header";
@@ -25,11 +26,11 @@ export const App = () => {
 
   useMonacoTransparentTheme();
 
-  const handleTailwindCodeChange: OnChange = (value = "") => {
+  const debouncedHandleTailwindCodeChange = useDebounceCallback<OnChange>((value = "") => {
     setTailwindCode(value);
-  };
+  }, 200);
 
-  const handleThemeChange: OnChange = (value = "") => {
+  const debouncedHandleThemeChange = useDebounceCallback<OnChange>((value = "") => {
     const extractedTheme = extractTailwindTheme(value);
     if (!extractedTheme) {
       return setHasTailwindConfigError(true);
@@ -48,7 +49,7 @@ export const App = () => {
         return setHasTailwindConfigError(true);
       }
     })();
-  };
+  }, 200);
 
   const editorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false },
@@ -82,7 +83,7 @@ export const App = () => {
               >
                 <Editor
                   value={tailwindCode}
-                  onChange={handleTailwindCodeChange}
+                  onChange={debouncedHandleTailwindCodeChange}
                   options={editorOptions}
                   loading={<LoadingSpinner />}
                 />
@@ -102,7 +103,7 @@ export const App = () => {
                           ${hasTailwindConfigError && "border-red-900"}`}
               >
                 <Editor
-                  onChange={handleThemeChange}
+                  onChange={debouncedHandleThemeChange}
                   options={editorOptions}
                   defaultValue={placeholderTailwindConfig}
                   loading={<LoadingSpinner />}
