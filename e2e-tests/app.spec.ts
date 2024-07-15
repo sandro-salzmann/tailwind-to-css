@@ -3,7 +3,7 @@ import { placeholderFormattedCssCode, placeholderTailwindCode } from "../src/pla
 
 test.describe("Tailwind to CSS Conversion Tests", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:3000");
+    await page.goto("http://localhost:3000/tailwind-to-css");
   });
 
   test.beforeEach(async ({ page }) => {

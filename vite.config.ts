@@ -8,4 +8,7 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, "e2e-tests/*"],
   },
   base: "/tailwind-to-css",
+  build: {
+    outDir: "dist/tailwind-to-css",
+  },
 });
