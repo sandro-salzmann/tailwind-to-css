@@ -23,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "yarn"
       - name: Install dependencies
         run: npm install -g yarn && yarn
       - name: Check formatting
@@ -58,11 +59,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: "yarn"
       - name: Install dependencies
-        run: npm ci
+        run: npm install -g yarn && yarn
       - name: Build
-        run: npm run build
+        run: yarn build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
