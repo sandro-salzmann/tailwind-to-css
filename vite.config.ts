@@ -7,4 +7,5 @@ export default defineConfig({
   test: {
     exclude: [...configDefaults.exclude, "e2e-tests/*"],
   },
+  base: "/tailwind-to-css",
 });
